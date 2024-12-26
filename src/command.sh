@@ -1,24 +1,32 @@
 # REPO_URL https://github.com/Arunsingh589/BlackBird-Task-1
 # Commands used in steps 1-8 
 
-# Create react app 
-npm create vite@latest BlackBird-Task-1
+# Step 1: Create react app 
+npx create-react-app BlackBird-Task-1
 cd BlackBird-Task-1
 
-# Log into GitHub CLI 
+# Step 2: Log into GitHub CLI 
 gh auth login
 
-# Create repo and checkout to the "update_logo" branch
-gh repo create
+# Step 3: Initialize Git repository and commit initial code
+git init
+git add .
+git commit -m "Initial commit"
+
+# Step 4: Create repo and checkout to the "update_logo" branch
+gh repo create --public --source=. --remote=origin
 git checkout -b update_logo
 
-# After making changes, commit and push them up
-sed -i "" 's|img src={logo}|img src="https://www.propelleraero.com/wp-content/uploads/2021/05/Vector.svg"|g' src/App.js
-sed -i "" 's|href="https://reactjs.org"|href="https://www.propelleraero.com/dirtmate/"|g' src/App.
+# Step 5: Replace logo and link
+curl -o src/logo.svg https://www.propelleraero.com/wp-content/uploads/2021/05/Vector.svg
+sed -i '' 's|logo.svg|./logo.svg|' src/App.js
+sed -i '' 's|https://reactjs.org|https://www.propelleraero.com/dirtmate/|' src/App.js
+
+# Step 6: Commit and push changes
 git add .
 git commit -m "Update logo to Propeller and link to Dirtmate"
 git push --set-upstream origin update_logo
 
-# Create and then approve a PR
-gh pr create --title "Update logo and link"
-gh pr merge
+# Step 7: Create and merge a PR
+gh pr create --title "Update logo and link" --body "Updated logo and link as per requirements."
+gh pr merge --merge
